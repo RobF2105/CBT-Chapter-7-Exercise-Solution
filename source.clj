@@ -12,10 +12,8 @@
 
 (def operators [[^* ^/] [^+ ^-]])
 
-;; This is part of the logic, but doesn't work as Clojure doesn't seem to be able to
-;; use quoted symbols in predicates
-
-(take-while #(or (= ^+ %) (= ^- %) (number? %)) ^(1 + 2 - 3 * 4))
+;; This works - now need to create a function builder so that current-precedence operators can be passed in
+(take-while #(or (= '+ %) (= '- %) (number? %)) '(1 + 2 - 3 * 4))
 
 ;; ignore below for now
 
