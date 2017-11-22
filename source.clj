@@ -10,10 +10,18 @@
 ;; When all wagons have been considered, then the process repeats at the next lower
 ;; precedence level. This continue until all precedence levels have been considered.
 
-(def operators [[^* ^/] [^+ ^-]])
+(def operators [['* '/] ['+ '-]])
 
 ;; This works - now need to create a function builder so that current-precedence operators can be passed in
 (take-while #(or (= '+ %) (= '- %) (number? %)) '(1 + 2 - 3 * 4))
+
+;; This works:
+(defn num-or-given-op?
+  "(operators) -> bool"
+  [operators]
+  (fn [arg] (some identity (conj (map (fn [x] (= x arg)) operators) (number? arg)))))
+
+(take-while (num-or-given-op? ['+ '-]) '(1 + 2 - 3 * 4))
 
 ;; ignore below for now
 
